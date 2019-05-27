@@ -101,7 +101,8 @@ public class QianXinListActivity extends BaseActivity implements
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
-
+    //必须先上传图片才能进行测试
+    private boolean isUploadImg = false;
     private int pageNo = 1;
 
     private final static String ITEM = "item";
@@ -166,20 +167,20 @@ public class QianXinListActivity extends BaseActivity implements
         onRefresh();
     }
 
-    private boolean compareDistance(QianXinItemBean bean,int val) {
+    private boolean compareDistance(QianXinItemBean bean, int val) {
         boolean aOk = true;
         boolean zOk = true;
         if (!TextUtils.isEmpty(bean.getAGEOX()) && !TextUtils.isEmpty(bean.getAGEOY())) {
             if (GPSUtils.getDistance(locationBean.latitude, locationBean.longitude
                     , Double.parseDouble(bean.getAGEOY()), Double.parseDouble(bean.getAGEOX())) > val) {
-                aOk= false;
+                aOk = false;
             }
         }
         if (!TextUtils.isEmpty(bean.getZGEOX()) && !TextUtils.isEmpty(bean.getZGEOY())) {
             if (GPSUtils.getDistance(locationBean.latitude, locationBean.longitude
                     , Double.parseDouble(bean.getZGEOY()), Double.parseDouble(bean.getZGEOX())) > val) {
 
-                zOk= false;
+                zOk = false;
             }
         }
         return aOk || zOk;
@@ -246,10 +247,10 @@ public class QianXinListActivity extends BaseActivity implements
                         }
 
                         List<RemoveBean.RemoveObjBean> da = new ArrayList<>();
-                        if(remove!=null){
+                        if (remove != null) {
                             da.addAll(remove);
                         }
-                        if(error!=null){
+                        if (error != null) {
                             da.addAll(error);
                         }
 
@@ -396,6 +397,7 @@ public class QianXinListActivity extends BaseActivity implements
                     public void onNext(Boolean bo) {
                         if (bo) {
                             ToastUtils.showToast("上传成功");
+                            isUploadImg = true;
                         } else {
                             ToastUtils.showToast("上传失败");
                         }
@@ -426,7 +428,7 @@ public class QianXinListActivity extends BaseActivity implements
 
     @Override
     public void onRefresh() {
-        pageNo=1;
+        pageNo = 1;
         getData();
     }
 
@@ -434,16 +436,22 @@ public class QianXinListActivity extends BaseActivity implements
 
     @Override
     public void onTest(final QianXinItemBean bean) {
+
+        if (!isUploadImg) {
+            ToastUtils.showToast("请先上传实地照片");
+            return;
+        }
+
         if (locationBean == null) {
             ToastUtils.showToast("请先定位");
             return;
         }
-        if (!compareDistance(bean,1)) {
+        if (!compareDistance(bean, 1)) {
             ToastUtils.showToast("当前位置和该光缆的位置大于1公里，请确认定位位置!");
             return;
         }
 
-        if(TextUtils.equals(bean.getSTATENAME(),"损坏")){
+        if (TextUtils.equals(bean.getSTATENAME(), "损坏")) {
             ToastUtils.showToast("当前纤芯已损坏，不能测试！");
             return;
         }
@@ -481,7 +489,7 @@ public class QianXinListActivity extends BaseActivity implements
         progressDialog.setTitle("正在校验参数");
         progressDialog.show();
         RetrofitHttpEngine.obtainRetrofitService(Api.class)
-                .checkSerial(SocketService.getDeviceNum(),UserManager.getInstance().getUserName())
+                .checkSerial(SocketService.getDeviceNum(), UserManager.getInstance().getUserName())
                 .map(ResultBooleanFunction.create())
                 .compose(LifeObservableTransformer.<Boolean>create(this))
                 .subscribe(new ErrorObserver<Boolean>(this) {
@@ -511,8 +519,7 @@ public class QianXinListActivity extends BaseActivity implements
     }
 
 
-
-    private void  realTest(TestArgsAndStartBean testArgsAndStartBean){
+    private void realTest(TestArgsAndStartBean testArgsAndStartBean) {
         if (progressDialog == null) {
             initProgress();
         }
@@ -1236,7 +1243,7 @@ public class QianXinListActivity extends BaseActivity implements
             return;
         }
 
-        if (!compareDistance(bean,5)) {
+        if (!compareDistance(bean, 5)) {
             ToastUtils.showToast("超出更改范围!");
             return;
         }
