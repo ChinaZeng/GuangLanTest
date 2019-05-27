@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="50dp"
+    tools:mContext=".ui.login.LoginActivity">
+
+
+    <com.zzw.guanglan.widgets.MultiFunctionEditText
+        android:id="@+id/et_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="@android:color/transparent"
+        android:hint="请输入ip"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:textColor="@color/color333333"
+        android:textSize="18sp"
+        app:clearButtonEnable="true"
+        app:clearButtonIcon="@mipmap/ic_clear"
+        app:iconPadding="5dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorDivider" />
+
+
+    <com.zzw.guanglan.widgets.MultiFunctionEditText
+        android:id="@+id/et_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:hint="请输入端口"
+        android:inputType="number"
+        android:paddingLeft="10dp"
+        android:textColor="@color/color333333"
+        android:textSize="18sp"
+        app:clearButtonEnable="true"
+        app:clearButtonIcon="@mipmap/ic_clear"
+        app:iconPadding="5dp" />
+
+
+    <Button
+        android:id="@+id/bt_sure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@color/color1"
+        android:gravity="center"
+        android:minHeight="40dp"
+        android:onClick="save"
+        android:text="保存"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

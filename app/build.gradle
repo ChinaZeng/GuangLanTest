@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    defaultConfig {
+        applicationId "com.zzw.guanglan"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi-v7a"//,"armeabi",  "arm64-v8a", "x86","x86_64"
+        }
+    }
+
+    signingConfigs {
+        signingConfig {
+            keyAlias 'guanglan'
+            keyPassword 'guanglan'
+            storeFile file('guanglan.jks')
+            storePassword 'guanglan'
+        }
+
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.signingConfig
+            debuggable true
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.signingConfig
+            debuggable false
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    productFlavors {
+//        office {
+//            dimension "color"
+//            resValue("string", "app_name", "小鹿情感")
+//            manifestPlaceholders = [APP_ICON_LOGO: "@mipmap/ic_launcher",
+//                                    SPLASH_BACKGROUND: "@style/SplashTheme"]
+//        }
+//        unoffice {
+//            dimension "color"
+//            resValue("string", "app_name", "小鹿情感")
+//            manifestPlaceholders = [APP_ICON_LOGO: "@mipmap/unoffice_ic_launcher",
+//                                    SPLASH_BACKGROUND: "@style/SplashTheme"]
+//        }
+//    }
+}
+
+
+
+
+
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation rootProject.ext.dependencies["butterknife"]
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+    //ui
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["support-v4"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //network
+    implementation rootProject.ext.dependencies["okHttp"]
+    implementation(rootProject.ext.dependencies["retrofit"]) {
+        exclude module: 'okhttp'
+    }
+    implementation(rootProject.ext.dependencies["retrofit-converter-gson"]) {
+        exclude module: 'gson'
+    }
+    implementation(rootProject.ext.dependencies["retrofit-adapter-rxjava2"]) {
+        exclude module: 'rxjava'
+    }
+    implementation rootProject.ext.dependencies["okHttpLog"]
+    //image
+    implementation rootProject.ext.dependencies["glide"]
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+    //解析
+    implementation rootProject.ext.dependencies["gson"]
+    //rx
+    implementation rootProject.ext.dependencies["rxjava2"]
+    implementation(rootProject.ext.dependencies["rxpermissions2"]) {
+        exclude module: 'rxjava'
+    }
+    implementation(rootProject.ext.dependencies["rxandroid2"]) {
+        exclude module: 'rxjava'
+    }
+    implementation(rootProject.ext.dependencies["rxlifecycle2"]) {
+        exclude module: 'rxjava'
+    }
+    implementation(rootProject.ext.dependencies["rxlifecycle2-components"]) {
+        exclude module: 'support-v4'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-annotations'
+        exclude module: 'rxjava'
+        exclude module: 'rxandroid'
+    }
+    implementation rootProject.ext.dependencies["timber"]
+    implementation 'com.amap.api:location:latest.integration'
+    //    implementation 'com.amap.api:map2d:latest.integration'
+    //    implementation 'com.amap.api:search:latest.integration'
+    api 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    implementation 'com.github.Rukey7:TagLayout:1.0.6'
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+}

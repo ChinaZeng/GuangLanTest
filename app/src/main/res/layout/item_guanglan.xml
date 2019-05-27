@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/guang_lan_d_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        tools:text="光缆名称:xxxxxxx" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="3dp"
+        android:background="@color/colorDivider" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_gl_name"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            tools:text="所在区域:xxxxx" />
+
+        <TextView
+            android:id="@+id/tv_gl_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_gl_name"
+            android:layout_toRightOf="@+id/tv_gl_name"
+            android:singleLine="true"
+            tools:text="安装地址:xxxxx" />
+
+
+        <TextView
+            android:id="@+id/tv_gl_state"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_gl_name"
+            android:layout_below="@+id/tv_gl_name"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            tools:text="光缆段状态:xxxxx" />
+
+        <TextView
+            android:id="@+id/tv_gl_leave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_gl_state"
+            android:layout_toRightOf="@+id/tv_gl_state"
+            android:singleLine="true"
+            tools:text="当前级别:xxxxx" />
+
+
+        <TextView
+            android:id="@+id/tv_gl_len"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_gl_name"
+            android:layout_below="@+id/tv_gl_state"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            tools:text="长度:xxxxx" />
+
+
+        <TextView
+            android:id="@+id/tv_gl_rongliang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_gl_len"
+            android:layout_toRightOf="@+id/tv_gl_len"
+            android:singleLine="true"
+            tools:text="容量:xxxxx" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
