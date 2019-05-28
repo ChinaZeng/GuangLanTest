@@ -41,10 +41,10 @@ public class LoginActivity extends BaseActivity {
         super.initView();
         setTitle("登录");
 
-        if (BuildConfig.DEBUG) {
-            etPhone.setText("njtest");
-            etPwd.setText("njtest");
-        }
+//        if (BuildConfig.DEBUG) {
+//            etPhone.setText("njtest");
+//            etPwd.setText("njtest");
+//        }
 
         LoginBean bean = SPUtil.getInstance().getSerializable("lastLogin", null);
         if (bean != null) {
