@@ -84,33 +84,31 @@ public class ResourceActivity extends BaseActivity implements LocationManager.On
         switch (view.getId()) {
             case R.id.tv_res_look:
 
-                showPop(view);
+                if (TextUtils.isEmpty(SocketService.getDeviceNum())) {
+                    ToastUtils.showToast("设备号没有获取，请先获取设备号");
+                    HotConnActivity.open(this);
+                    return;
+                }
+                RetrofitHttpEngine.obtainRetrofitService(Api.class)
+                        .checkSerial(SocketService.getDeviceNum(), UserManager.getInstance().getUserName())
+                        .map(ResultBooleanFunction.create())
+                        .compose(LifeObservableTransformer.<Boolean>create(this))
+                        .subscribe(new ErrorObserver<Boolean>(this) {
+                            @Override
+                            public void onNext(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    showPop(view);
+                                } else {
+                                    ToastUtils.showToast("该设备没有授权无法测试，请联系管理员。");
+                                }
+                            }
 
-//                if (TextUtils.isEmpty(SocketService.getDeviceNum())) {
-//                    ToastUtils.showToast("设备号没有获取，请先获取设备号");
-//                    HotConnActivity.open(this);
-//                    return;
-//                }
-//                RetrofitHttpEngine.obtainRetrofitService(Api.class)
-//                        .checkSerial(SocketService.getDeviceNum(), UserManager.getInstance().getUserName())
-//                        .map(ResultBooleanFunction.create())
-//                        .compose(LifeObservableTransformer.<Boolean>create(this))
-//                        .subscribe(new ErrorObserver<Boolean>(this) {
-//                            @Override
-//                            public void onNext(Boolean aBoolean) {
-//                                if (aBoolean) {
-//                                    showPop(view);
-//                                } else {
-//                                    ToastUtils.showToast("该设备没有授权无法测试，请联系管理员。");
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-////                                super.onError(e);
-//                                ToastUtils.showToast("该设备没有授权无法测试，请联系管理员。");
-//                            }
-//                        });
+                            @Override
+                            public void onError(Throwable e) {
+//                                super.onError(e);
+                                ToastUtils.showToast("该设备没有授权无法测试，请联系管理员。");
+                            }
+                        });
                 break;
             case R.id.tv_my_gd:
                 GongDanListActivity.open(this);

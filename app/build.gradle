@@ -57,12 +57,9 @@ android {
 //                                    SPLASH_BACKGROUND: "@style/SplashTheme"]
 //        }
 //    }
+
+
 }
-
-
-
-
-
 
 
 dependencies {
@@ -74,10 +71,10 @@ dependencies {
     //ui
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["support-v4"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["constraint-layout"]
-    implementation rootProject.ext.dependencies["recyclerview-v7"]
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //network
     implementation rootProject.ext.dependencies["okHttp"]
@@ -121,5 +118,6 @@ dependencies {
     api 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation 'com.github.Rukey7:TagLayout:1.0.6'
     implementation files('libs/BaiduLBS_Android.jar')
-    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
 }

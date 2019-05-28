@@ -151,7 +151,6 @@ public class QianXinListActivity extends BaseActivity implements
 
         super.initData();
         guangLanDBean = (GuangLanDItemBean) getIntent().getSerializableExtra(ITEM);
-
         headerView();
 
         recy.setLayoutManager(new LinearLayoutManager(this));
@@ -876,36 +875,39 @@ public class QianXinListActivity extends BaseActivity implements
         initLastMode(view);
         initAutoMode(view);
 
+        //这里暂时只需要自动配置
         final TagLayout tagLayout = view.findViewById(R.id.sel_mode);
-        tagLayout.setTagCheckListener(new TagView.OnTagCheckListener() {
-            @Override
-            public void onTagCheck(int i, String s, boolean b) {
-                if (b) {
-                    head_click.setText("确定");
-                    argsMode = i;
-                    //自定义
-                    if (i == 0) {
-                        cutomView.setVisibility(View.VISIBLE);
-                        lastView.setVisibility(View.GONE);
-                        autoMode.setVisibility(View.GONE);
-                        //上一次
-                    } else if (i == 1) {
-                        initLastMode(view);
-                        cutomView.setVisibility(View.GONE);
-                        lastView.setVisibility(View.VISIBLE);
-                        autoMode.setVisibility(View.GONE);
-                        //自动配置
-                    } else {
-                        cutomView.setVisibility(View.GONE);
-                        lastView.setVisibility(View.GONE);
-                        autoMode.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
+//        tagLayout.setTagCheckListener(new TagView.OnTagCheckListener() {
+//            @Override
+//            public void onTagCheck(int i, String s, boolean b) {
+//                if (b) {
+//                    head_click.setText("确定");
+//                    argsMode = i;
+//                    //自定义
+//                    if (i == 0) {
+//                        cutomView.setVisibility(View.VISIBLE);
+//                        lastView.setVisibility(View.GONE);
+//                        autoMode.setVisibility(View.GONE);
+//                        //上一次
+//                    } else if (i == 1) {
+//                        initLastMode(view);
+//                        cutomView.setVisibility(View.GONE);
+//                        lastView.setVisibility(View.VISIBLE);
+//                        autoMode.setVisibility(View.GONE);
+//                        //自动配置
+//                    } else {
+//                        cutomView.setVisibility(View.GONE);
+//                        lastView.setVisibility(View.GONE);
+//                        autoMode.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//        tagLayout.addTags("自定义", "上一次配置", "自动配置");
 
-        tagLayout.addTags("自定义", "上一次配置", "自动配置");
-//        tagLayout.setCheckTag(0);
+
+        tagLayout.addTags("自动配置");
+        argsMode = 2;
 
         return view;
     }
