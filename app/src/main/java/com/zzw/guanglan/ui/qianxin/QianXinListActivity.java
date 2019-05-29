@@ -875,8 +875,7 @@ public class QianXinListActivity extends BaseActivity implements
         initLastMode(view);
         initAutoMode(view);
 
-        //这里暂时只需要自动配置
-        final TagLayout tagLayout = view.findViewById(R.id.sel_mode);
+//        final TagLayout tagLayout = view.findViewById(R.id.sel_mode);
 //        tagLayout.setTagCheckListener(new TagView.OnTagCheckListener() {
 //            @Override
 //            public void onTagCheck(int i, String s, boolean b) {
@@ -906,8 +905,9 @@ public class QianXinListActivity extends BaseActivity implements
 //        tagLayout.addTags("自定义", "上一次配置", "自动配置");
 
 
-        tagLayout.addTags("自动配置");
-        argsMode = 2;
+        //这里暂时只需要自动配置
+        view.findViewById(R.id.ll_config).setVisibility(View.GONE);
+        autoMode.setVisibility(View.VISIBLE);
 
         return view;
     }
