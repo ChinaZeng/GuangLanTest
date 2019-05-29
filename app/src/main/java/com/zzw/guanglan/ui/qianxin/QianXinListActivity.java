@@ -564,25 +564,31 @@ public class QianXinListActivity extends BaseActivity implements
         testSuccessHint();
     }
 
+
+    AlertDialog alertDialog;
+
     private void testSuccessHint() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("测试完成,是否上传测试文件?");
-        builder.setNegativeButton("上传", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onUpload(testBean);
-                dialog.dismiss();
-            }
-        });
-        builder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.setCanceledOnTouchOutside(false);
+        if (alertDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("测试完成,是否上传测试文件?");
+            builder.setNegativeButton("上传", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    onUpload(testBean);
+                    dialog.dismiss();
+                }
+            });
+            builder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
+        }
+
         alertDialog.show();
     }
 
