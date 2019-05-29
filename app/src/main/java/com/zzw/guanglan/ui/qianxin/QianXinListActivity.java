@@ -914,6 +914,7 @@ public class QianXinListActivity extends BaseActivity implements
         //这里暂时只需要自动配置
         view.findViewById(R.id.ll_config).setVisibility(View.GONE);
         autoMode.setVisibility(View.VISIBLE);
+        argsMode =2;
 
         return view;
     }
