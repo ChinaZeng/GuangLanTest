@@ -6,6 +6,7 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zzw.guanglan.Contacts;
+import com.zzw.guanglan.DebugFileTree;
 import com.zzw.guanglan.http.retrofit.RetrofitHttpEngine;
 import com.zzw.guanglan.utils.ToastUtils;
 
@@ -13,7 +14,7 @@ import okhttp3.Interceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
-public class BaseApplication extends Application   {
+public class BaseApplication extends Application {
 
 
     private static BaseApplication application;
@@ -24,6 +25,7 @@ public class BaseApplication extends Application   {
         application = this;
 
         Timber.plant(new Timber.DebugTree());
+        Timber.plant(new DebugFileTree());
         ToastUtils.init(this);
         RetrofitHttpEngine.builder()
                 .baseUrl(Contacts.BASE_URL)
