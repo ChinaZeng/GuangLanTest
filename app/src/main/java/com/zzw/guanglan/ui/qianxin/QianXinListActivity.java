@@ -446,7 +446,7 @@ public class QianXinListActivity extends BaseActivity implements
             return;
         }
         if (!compareDistance(bean, 4)) {
-            ToastUtils.showToast("当前位置和该光缆的位置大于1公里，请确认定位位置!");
+            ToastUtils.showToast("当前位置和该光缆的位置大于4公里，请确认定位位置!");
             return;
         }
 
