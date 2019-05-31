@@ -47,7 +47,7 @@ public class BaseApplication extends Application {
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
 
-        CrashReport.initCrashReport(getApplicationContext(), "a95c12706e", false);
+        CrashReport.initCrashReport(getApplicationContext(), "db53fce2ec", false);
     }
 
     public static BaseApplication getApplication() {
