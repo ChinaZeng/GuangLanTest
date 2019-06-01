@@ -309,7 +309,7 @@ public class QianXinListActivity extends BaseActivity implements
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String f = System.currentTimeMillis() + ".jpg";
         tempFile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + f);
-        Uri uri = FileProvider.getUriForFile(this, "com.zzw.guanglan.fileProvider", tempFile);
+        Uri uri = FileProvider.getUriForFile(this, getPackageName()+".fileProvider", tempFile);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri); //指定图片存放位置，指定后，在onActivityResult里得到的Data将为null
         startActivityForResult(openCameraIntent, CAMERA_REQUEST_CODE);
     }
