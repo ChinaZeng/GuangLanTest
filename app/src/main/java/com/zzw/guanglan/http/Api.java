@@ -40,7 +40,7 @@ public interface Api {
     Observable<UserBean> login(@PartMap Map<String, RequestBody> s);
 
 
-    @GET("/glcs/bseRoom/getAreaTree")
+    @GET("/glcs/bseRoom/appGetAreaTree")
     Observable<List<AreaBean>> getAreaTree(@Query("staffNbr") String staffNbr);
 
     @GET("/glcs/bseRoom/getAllStation")
