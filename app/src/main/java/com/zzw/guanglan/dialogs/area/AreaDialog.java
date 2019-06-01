@@ -7,6 +7,7 @@ import com.zzw.guanglan.dialogs.multilevel.MultilLevelDialog;
 import com.zzw.guanglan.dialogs.multilevel.OnConfirmCallback;
 import com.zzw.guanglan.http.Api;
 import com.zzw.guanglan.http.retrofit.RetrofitHttpEngine;
+import com.zzw.guanglan.manager.UserManager;
 import com.zzw.guanglan.rx.LifeObservableTransformer;
 import com.zzw.guanglan.rx.SchedulersIoMainTransformer;
 
@@ -29,7 +30,7 @@ public class AreaDialog {
 
             @Override
             public Observable<List<AreaBean>> provideFirstLevel() {
-                return RetrofitHttpEngine.obtainRetrofitService(Api.class).getAreaTree()
+                return RetrofitHttpEngine.obtainRetrofitService(Api.class).getAreaTree(UserManager.getInstance().getUserName())
                         .compose(SchedulersIoMainTransformer.<List<AreaBean>>create())
                         .compose(LifeObservableTransformer.<List<AreaBean>>create(provider));
             }

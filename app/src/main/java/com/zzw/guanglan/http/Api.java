@@ -41,7 +41,7 @@ public interface Api {
 
 
     @GET("/glcs/bseRoom/getAreaTree")
-    Observable<List<AreaBean>> getAreaTree();
+    Observable<List<AreaBean>> getAreaTree(@Query("staffNbr") String staffNbr);
 
     @GET("/glcs/bseRoom/getAllStation")
     Observable<List<StationBean>> getAllStation(@Query("areaId") String areaId);
