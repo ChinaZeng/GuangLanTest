@@ -35,6 +35,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class SocketService extends Service implements StatusListener {
 
+    private static final String TAG = "SocketService";
+
     private HotBroadcastReceiver receiver;
     private ServerManager serverManager;
 
@@ -63,12 +65,11 @@ public class SocketService extends Service implements StatusListener {
     }
 
     public static String getDeviceNum() {
-        return TextUtils.isEmpty(Contacts.deviceNum)?"":Contacts.deviceNum.trim();
+        return TextUtils.isEmpty(Contacts.deviceNum) ? "" : Contacts.deviceNum.trim();
     }
 
     @Override
     public void onDestroy() {
-        MyLog.e("status", "onDestroy");
         super.onDestroy();
         socketDisConn();
         EventBus.getDefault().unregister(this);
@@ -108,17 +109,17 @@ public class SocketService extends Service implements StatusListener {
     public void statusChange(String key, STATUS status) {
 
         if (status == STATUS.END) {
-            String content = key + "断开连接";
-            MyLog.e(content);
+            String content = key + "断开连接\n";
+            MyLog.e(TAG, content);
             this.key = null;
-            MyLog.e("status", "断开连接");
+            MyLog.e(TAG, "断开连接\n");
             socketDisConn();
         } else if (status == STATUS.INIT) {
-            String content = key + "初始化接收线程";
-            MyLog.e("status", content);
+            String content = key + "初始化接收线程\n";
+            MyLog.e(TAG, content);
         } else if (status == STATUS.RUNNING) {
-            String content = key + "建立连接,开始运行";
-            MyLog.e("status", content);
+            String content = key + "建立连接,开始运行\n";
+            MyLog.e(TAG, content);
             this.key = key;
 
             Contacts.isConn = true;
@@ -141,6 +142,7 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.GET_DEVICE_SERIAL_NUMBER)
     public void getDeviceSerialNumber(int cmd) {
         if (key != null) {
+            MyLog.e(TAG, "--->getDeviceSerialNumber");
             serverManager.getDeviceSerialNumber(key);
         }
     }
@@ -149,6 +151,7 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.SEND_TEST_ARGS_AND_STOP_TEST)
     public void sendTestArgsAndStopTest(int flog) {
         if (key != null) {
+            MyLog.e(TAG, "--->sendTestArgsAndStopTest");
             serverManager.sendTestArgsAndStopTestPacket(key);
         }
     }
@@ -157,6 +160,7 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.SEND_TEST_ARGS_AND_START_TEST)
     public void sendTestArgsAndStartTest(TestArgsAndStartBean bean) {
         if (key != null) {
+            MyLog.e(TAG, "--->sendTestArgsAndStartTest");
             serverManager.sendTestArgsAndStartTestPacket(key, bean);
         }
     }
@@ -164,13 +168,15 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.GET_SOR_FILE)
     public void getSorFile(SorFileBean bean) {
         if (key != null) {
+            MyLog.e(TAG, "--->getSorFile");
             serverManager.getSorFile(key, bean);
         }
     }
 
     @Subscriber(tag = EventBusTag.SEND_RE)
-    public void getSorFile(ReBean bean) {
+    public void sendRe(ReBean bean) {
         if (key != null) {
+            MyLog.e(TAG, "--->sendRe");
             serverManager.sendRe(key, bean);
         }
     }
@@ -178,6 +184,7 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.SEND_HEART)
     public void sendHeart(int flog) {
         if (key != null) {
+            MyLog.e(TAG, "--->sendHeart");
             serverManager.sendHeart(key);
         }
     }
@@ -185,6 +192,7 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.RE_HEART)
     public void reHeart(int flog) {
         if (key != null) {
+            MyLog.e(TAG, "--->reHeart");
             serverManager.reHeart(key);
         }
     }
@@ -192,6 +200,28 @@ public class SocketService extends Service implements StatusListener {
     @Subscriber(tag = EventBusTag.TAG_RECIVE_MSG)
     public void reciverMsg(Packet packet) {
         StringBuilder builder = new StringBuilder();
+        if (packet.cmd == CMD.GET_DEVICE_SERIAL_NUMBER) {
+            builder.append("接收:获取设备号\n");
+        } else if (packet.cmd == CMD.RECIVE_DEVICE_SERIAL_NUMBER) {
+            builder.append("接收:OTDR上报设备序列号给APP\n");
+        } else if (packet.cmd == CMD.SEND_TEST_ARGS_AND_START_TEST) {
+            builder.append("接收:APP给设备下发OTDR测试参数并启动测试\n");
+        } else if (packet.cmd == CMD.SEND_TEST_ARGS_AND_STOP_TEST) {
+            builder.append("接收:APP向设备发送停止OTDR测试命令\n");
+        } else if (packet.cmd == CMD.RECIVE_SOR_INFO) {
+            builder.append("接收:设备向APP反馈sor文件信息\n");
+        } else if (packet.cmd == CMD.GET_SOR_FILE) {
+            builder.append("接收:APP向设备请求传输sor文件\n");
+        } else if (packet.cmd == CMD.RECIVE_SOR_FILE) {
+            builder.append("接收:设备向APP发送OTDR测试结果文件\n");
+        } else if (packet.cmd == CMD.HEART_SEND) {
+            builder.append("接收:心跳\n");
+        } else if (packet.cmd == CMD.HEART_RE) {
+            builder.append("接收:心跳回复\n");
+        } else if (packet.cmd == CMD._RE) {
+            builder.append("接收:回复指令\n");
+        }
+
         builder.append("起始值:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(Packet.START_FRAME)) + "\n");
         builder.append("总帧长度:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(packet.pkAllLen)) + "\n");
         builder.append("版本号:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(packet.rev)) + "\n");
@@ -204,8 +234,7 @@ public class SocketService extends Service implements StatusListener {
         builder.append("数据长度:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(packet.cmdDataLength)) + "\n");
         builder.append("数据:" + ByteUtil.bytesToHexSpaceString(packet.data) + "\n");
         builder.append("结尾值:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(Packet.END_FRAME)) + "\n");
-        MyLog.e(builder.toString());
-
+        MyLog.e(TAG, builder.toString());
 
         if (packet.cmd == CMD.RECIVE_SOR_FILE) {
             if (packet.data.length < 32 + 4 + 32) return;
@@ -224,11 +253,13 @@ public class SocketService extends Service implements StatusListener {
                     bean.fileSize = fileSize;
                     bean.filePath = file.getAbsolutePath();
                     bean.MD5 = MD5;
-                    MyLog.e("zzz", "sermd5 = " + MD5 + " serfilesize = " + fileSize
+                    MyLog.e(TAG, "sermd5 = " + MD5 + " serfilesize = " + fileSize
                             + " file:" + file.getAbsolutePath() + " filesize = " + file.length() + "  fileMd5=" + fileMD5);
                     if (TextUtils.equals(MD5, fileMD5)) {
+                        MyLog.e(TAG, "接收文件成功");
                         EventBus.getDefault().post(bean, EventBusTag.SOR_RECIVE_SUCCESS);
                     } else {
+                        MyLog.e(TAG, "接收文件失败");
                         EventBus.getDefault().post(bean, EventBusTag.SOR_RECIVE_FAIL);
                     }
                 } catch (NoSuchAlgorithmException e) {
@@ -239,7 +270,7 @@ public class SocketService extends Service implements StatusListener {
             }
         } else if (packet.cmd == CMD.HEART_SEND) {
             heartFlog++;
-            MyLog.e("heartFlog = " + heartFlog);
+            MyLog.e(TAG, "heartFlog = " + heartFlog);
             reHeart(1);
         } else if (packet.cmd == CMD.RECIVE_DEVICE_SERIAL_NUMBER) {
             //正常是这样的 设备厂家(16) + 序列号(16) + 设备版本(8),但是这里只要序列号  所以没判断设备版本
@@ -259,7 +290,25 @@ public class SocketService extends Service implements StatusListener {
 
         StringBuilder builder = new StringBuilder();
         if (packet.cmd == CMD.GET_DEVICE_SERIAL_NUMBER) {
-            builder.append("发送获取设备号命令成功\n");
+            builder.append("发送:获取设备号\n");
+        } else if (packet.cmd == CMD.RECIVE_DEVICE_SERIAL_NUMBER) {
+            builder.append("发送:OTDR上报设备序列号给APP\n");
+        } else if (packet.cmd == CMD.SEND_TEST_ARGS_AND_START_TEST) {
+            builder.append("发送:APP给设备下发OTDR测试参数并启动测试\n");
+        } else if (packet.cmd == CMD.SEND_TEST_ARGS_AND_STOP_TEST) {
+            builder.append("发送:APP向设备发送停止OTDR测试命令\n");
+        } else if (packet.cmd == CMD.RECIVE_SOR_INFO) {
+            builder.append("发送:设备向APP反馈sor文件信息\n");
+        } else if (packet.cmd == CMD.GET_SOR_FILE) {
+            builder.append("发送:APP向设备请求传输sor文件\n");
+        } else if (packet.cmd == CMD.RECIVE_SOR_FILE) {
+            builder.append("发送:设备向APP发送OTDR测试结果文件\n");
+        } else if (packet.cmd == CMD.HEART_SEND) {
+            builder.append("发送:心跳\n");
+        } else if (packet.cmd == CMD.HEART_RE) {
+            builder.append("发送:心跳回复\n");
+        } else if (packet.cmd == CMD._RE) {
+            builder.append("发送:回复指令\n");
         }
         builder.append("起始值:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(Packet.START_FRAME)) + "\n");
         builder.append("总帧长度:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(packet.pkAllLen)) + "\n");
@@ -273,7 +322,7 @@ public class SocketService extends Service implements StatusListener {
         builder.append("数据长度:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(packet.cmdDataLength)) + "\n");
         builder.append("数据:" + ByteUtil.bytesToHexSpaceString(packet.data) + "\n");
         builder.append("结尾值:" + ByteUtil.bytesToHexSpaceString(ByteUtil.intToBytes(Packet.END_FRAME)) + "\n");
-        MyLog.e(builder.toString());
+        MyLog.e(TAG, builder.toString());
     }
 
 
@@ -284,7 +333,7 @@ public class SocketService extends Service implements StatusListener {
             while (Contacts.isConn && !isInterrupted()) {
                 try {
                     Thread.sleep(10 * 1000);
-                    MyLog.e("检测 heartFlog = " + heartFlog);
+                    MyLog.e(TAG, "检测 heartFlog = " + heartFlog);
                     if (heartFlog < 1) {
 //                        MyLog.e("心跳没收到，关闭service");
                         socketDisConn();
@@ -309,24 +358,24 @@ public class SocketService extends Service implements StatusListener {
             if ("android.net.wifi.WIFI_AP_STATE_CHANGED".equals(action)) {
                 //state状态为：10---正在关闭；11---已关闭；12---正在开启；13---已开启
                 int state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, 0);
-                MyLog.e("state =" + state);
+                MyLog.e(TAG, "state =" + state);
 
                 switch (state) {
                     case 10:
-                        MyLog.e("热点正在关闭");
+                        MyLog.e(TAG, "热点正在关闭");
                         break;
                     case 11:
-                        MyLog.e("热点已关闭");
+                        MyLog.e(TAG, "热点已关闭");
                         socketDisConn();
                         stopSelf();
                         break;
 
                     case 12:
-                        MyLog.e("热点正在开启");
+                        MyLog.e(TAG, "热点正在开启");
                         break;
                     case 13:
                         //开启成功
-                        MyLog.e("热点正在开启");
+                        MyLog.e(TAG, "热点正在开启");
                         break;
                 }
             }

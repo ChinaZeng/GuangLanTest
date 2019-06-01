@@ -62,12 +62,12 @@
         <service android:name="com.amap.api.location.APSService" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7c3c7348ecb4ba677358b342768a82c9" />
+            android:value="40a91d6182010ef1810dc56c7f09573e" />
 
         <!--Baidu-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="aMkk6ZRAfOYbZACPD9tSByaN3oDQl3iT"></meta-data>
+            android:value="OBgjAknnPHibVGWsoI5xcM9OTyp6eDOU"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

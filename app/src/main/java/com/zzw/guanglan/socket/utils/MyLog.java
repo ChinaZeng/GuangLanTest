@@ -9,5 +9,8 @@ public class MyLog {
 
     public static void e(String tag, String msg) {
         Timber.tag(tag).e(msg);
+
+
+
     }
 }
