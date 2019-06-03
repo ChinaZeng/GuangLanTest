@@ -94,17 +94,17 @@ public class LoginActivity extends BaseActivity {
 
     public void logo(View view) {
 
-        long nowTime = System.currentTimeMillis();
-        if (nowTime - lastClickTime > 200) {
-            clickCount = 1;
-        } else {
-            clickCount++;
-        }
-        lastClickTime = nowTime;
-
-        if (clickCount > 5) {
-            ConfigIpActivity.open(this);
-        }
+//        long nowTime = System.currentTimeMillis();
+//        if (nowTime - lastClickTime > 200) {
+//            clickCount = 1;
+//        } else {
+//            clickCount++;
+//        }
+//        lastClickTime = nowTime;
+//
+//        if (clickCount > 5) {
+//            ConfigIpActivity.open(this);
+//        }
     }
 
 

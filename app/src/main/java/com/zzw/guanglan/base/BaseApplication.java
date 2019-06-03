@@ -25,7 +25,7 @@ public class BaseApplication extends Application {
         application = this;
 
         Timber.plant(new Timber.DebugTree());
-        Timber.plant(new DebugFileTree());
+//        Timber.plant(new DebugFileTree());
         ToastUtils.init(this);
         RetrofitHttpEngine.builder()
                 .baseUrl(Contacts.BASE_URL)
@@ -33,7 +33,7 @@ public class BaseApplication extends Application {
                         new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                             @Override
                             public void log(String message) {
-                                Timber.tag("okhttp").w(message);
+//                                Timber.tag("okhttp").w(message);
                             }
                         })
                                 .setLevel(HttpLoggingInterceptor.Level.BODY)
