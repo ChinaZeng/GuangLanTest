@@ -101,8 +101,8 @@ public class QianXinListActivity extends BaseActivity implements
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
-    //必须先上传图片才能进行测试
-    private boolean isUploadImg = false;
+    //必须先上传图片才能进行测试（新疆的不用上传）
+    private boolean isUploadImg = true;
     private int pageNo = 1;
 
     private final static String ITEM = "item";
