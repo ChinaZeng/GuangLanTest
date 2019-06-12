@@ -964,16 +964,16 @@ public class QianXinListActivity extends BaseActivity implements
                     bean.time = 15;
                 } else if (i == 7) {
                     bean.rang = 60000;
-                    bean.pw = 640;
-                    bean.time = 15;
+                    bean.pw = 320;
+                    bean.time = 30;
                 } else if (i == 8) {
                     bean.rang = 100000;
-                    bean.pw = 1280;
+                    bean.pw = 640;
                     bean.time = 30;
                 } else if (i == 9) {
                     bean.rang = 180000;
                     bean.pw = 2560;
-                    bean.time = 30;
+                    bean.time = 60;
                 }
                 testArgsAutoModeBean = bean;
             }
